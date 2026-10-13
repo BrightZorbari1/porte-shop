@@ -40,6 +40,14 @@ export default function CartDrawer() {
     setLoading(true);
     const fd = new FormData(e.currentTarget);
     try {
+      if (process.env.NEXT_PUBLIC_STATIC_MODE === "true") {
+        // Static demo build (GitHub Pages): no backend, confirm locally.
+        await new Promise((r) => setTimeout(r, 800));
+        setOrderNo(`PT-${crypto.randomUUID().slice(0, 8).toUpperCase()}`);
+        clear();
+        setStep("done");
+        return;
+      }
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

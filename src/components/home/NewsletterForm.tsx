@@ -14,6 +14,12 @@ export default function NewsletterSection() {
     setState("loading");
     const fd = new FormData(e.currentTarget);
     try {
+      if (process.env.NEXT_PUBLIC_STATIC_MODE === "true") {
+        // Static demo build (GitHub Pages): no backend, confirm locally.
+        await new Promise((r) => setTimeout(r, 600));
+        setState("done");
+        return;
+      }
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -16,8 +16,6 @@ import {
 } from "@/lib/data";
 import { Asterisk } from "lucide-react";
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
   const [featured, bestsellers, counts] = await Promise.all([
     getFeaturedProducts(6),

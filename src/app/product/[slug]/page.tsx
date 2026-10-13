@@ -6,10 +6,17 @@ import { Truck } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import Purchase from "@/app/product/[slug]/Purchase";
+import { db } from "@/db";
+import { products } from "@/db/schema";
 import { getProductBySlug, getRelatedProducts } from "@/lib/data";
 import { categoryLabel } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const rows = await db.select({ slug: products.slug }).from(products);
+  return rows.map((r) => ({ slug: r.slug }));
+}
 
 export async function generateMetadata({
   params,
